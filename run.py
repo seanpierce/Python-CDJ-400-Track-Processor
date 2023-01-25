@@ -1,6 +1,7 @@
 import glob
 import os
 import shutil
+from bpm import analyze
 from pathlib import Path
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
@@ -20,7 +21,7 @@ for file in mp3_files:
         dir_name = os.path.dirname(file_path)
         src = Path(dir_name) / Path(file)
         dst = Path(dir_name) / track.directory / track.file_name
-        
+
         print(f"Processing {track.file_name}...")
     except Exception as e:
         print(f"Error collecting track data - {str(e)}")

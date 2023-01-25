@@ -11,7 +11,7 @@ class Track:
         try:     
             self._bpm = args['bpm'][0]
         except:
-            self._bpm = 0
+            self._bpm = None
 
     @property
     def directory(self):
@@ -19,7 +19,10 @@ class Track:
 
     @property
     def file_name(self):
-        return f"{self.bpm} {self.title}.mp3"
+        if self.bpm is not None:
+            return f"{self.bpm} {self.title}.mp3"
+        else:
+            return f"{self.title}.mp3"
 
     @property
     def artist(self):
@@ -36,10 +39,6 @@ class Track:
     @property
     def bpm(self):
         return self._bpm
-
-    @property
-    def bpm_file_name(self):
-        return f"{self.bpm} {self.artist} - {self.title}"
 
     def _replace(self, input):
         """
