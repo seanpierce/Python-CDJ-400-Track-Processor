@@ -12,7 +12,7 @@ mp3_files = glob.iglob('**/*.mp3', recursive=True)
 for file in mp3_files:
     try:
         file_path = os.path.abspath(file)
-        dir_name = os.path.dirname(file_path).replace('\/\/', '/')
+        dir_name = os.path.dirname(file_path)
         audio = MP3(file, ID3=EasyID3)
         track = Track(audio)
         src = Path(dir_name) / Path(file)
