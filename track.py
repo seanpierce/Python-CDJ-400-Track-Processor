@@ -1,6 +1,6 @@
 class Track:
     """
-    Class to host and organize track information
+    Class to host and organize track information.
     """
 
     def __init__(self, args):
@@ -15,7 +15,7 @@ class Track:
 
     @property
     def directory(self):
-        return f"{self.artist}/{self.album}"
+        return f"{self.artist}/{self.album}/"
 
     @property
     def file_name(self):
@@ -23,15 +23,15 @@ class Track:
 
     @property
     def artist(self):
-        return self.replace(self._artist)
+        return self._replace(self._artist)
 
     @property
     def album(self):
-        return self.replace( self._album)
+        return self._replace( self._album)
 
     @property
     def title(self):
-        return self.replace( self._title)
+        return self._replace( self._title)
 
     @property
     def bpm(self):
@@ -41,5 +41,10 @@ class Track:
     def bpm_file_name(self):
         return f"{self.bpm} {self.artist} - {self.title}"
 
-    def replace(self, input):
-        return input.replace('/', '_').replace('.', '_').replace(',', '_').replace(':', '_').replace('"', '_')
+    def _replace(self, input):
+        """
+        Method used to replace characters in the original file name that would break a file path.
+        """
+        chars = '/.,:"'
+        translateTable = input.maketrans(chars, '_____')
+        return input.translate(translateTable)
