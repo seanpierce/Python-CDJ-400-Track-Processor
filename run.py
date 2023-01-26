@@ -19,6 +19,7 @@ def run():
             dir_name = os.path.dirname(file_path)
         except Exception as e:
             print(f"Error collecting path information - {str(e)}")
+            continue
 
         try:
             print(f"Processing {file}...")
@@ -33,6 +34,7 @@ def run():
             track = Track(audio)
         except Exception as e:
             print(f"Error parsing track data - {str(e)}")
+            continue
 
         try:
             # set source and destination directories
@@ -40,13 +42,18 @@ def run():
             dst = Path(dir_name) / track.directory / track.file_name
         except Exception as e:
             print(f"Error setting up directory information - {str(e)}")
+            continue
 
         try:
             os.makedirs(os.path.dirname(track.directory), exist_ok=True)
         except Exception as e:
             print(f"Error making track directory - {str(e)}")
+            continue
 
         try:
             shutil.copyfile(src, dst)
         except Exception as e:
             print(f"Error copying track to directory - {str(e)}")
+            continue
+
+        os.remove(file)
