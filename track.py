@@ -9,7 +9,7 @@ class Track:
         self._artist = mp3['artist'][0]
         self._album = mp3['album'][0]
         self._title = mp3['title'][0]
-
+        self._bitrate = mp3.info.bitrate
         try:     
             self._bpm = mp3['bpm'][0]
         except:
@@ -61,6 +61,10 @@ class Track:
         The bpm (beats-per-minute)/ tempo of the track.
         """
         return self._bpm
+
+    @property
+    def bitrate(self):
+        return self._bitrate / 1000
 
     def _replace(self, input: str) -> str:
         """

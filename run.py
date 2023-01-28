@@ -5,14 +5,35 @@ from bpm import analyze
 from pathlib import Path
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
+from report import Report
 from track import Track
 
 
-def run():
-    print('Begin...')
-    mp3_files = glob.iglob('*.mp3', recursive=False)
+def run_report():
+    print('Starting Report...')
+
+    mp3_files = glob.glob('**/*.mp3', recursive=True)
+    print(f'Found {len(mp3_files)} mp3 files')
+
+    non_mp3_files = glob.glob('**/*[!.mp3]', recursive=True)
+    print(f'Found {len(mp3_files)} non-mp3 files')
+
+    report = Report(mp3_files)
+    report.generate()
+    report.append_non_mp3_files_to_report(non_mp3_files)
+
+    print('Job Complete!')
+
+
+def analyze():
+    print('Analyzing...')
+
+    mp3_files = glob.glob('**/*.mp3', recursive=True)
+    print(f'Found {len(mp3_files)} files')
 
     for file in mp3_files:
+        print(f"Processing {file}...")
+
         try:
             # get path variables
             file_path = os.path.abspath(file)
@@ -22,9 +43,7 @@ def run():
             continue
 
         try:
-            print(f"Processing {file}...")
             audio = MP3(file, ID3=EasyID3)
-            
             # analyze bpm and persist it to the file's ID3 tags
             bpm = analyze(file_path)
             print(f'BPM: {bpm}')
@@ -38,22 +57,18 @@ def run():
 
         try:
             # set source and destination directories
-            src = Path(dir_name) / Path(file)
+            src = file_path
             dst = Path(dir_name) / track.directory / track.file_name
-        except Exception as e:
-            print(f"Error setting up directory information - {str(e)}")
-            continue
-
-        try:
-            os.makedirs(os.path.dirname(track.directory), exist_ok=True)
+            os.makedirs(Path(dir_name) / track.directory, exist_ok=True)
         except Exception as e:
             print(f"Error making track directory - {str(e)}")
             continue
 
         try:
             shutil.copyfile(src, dst)
+            os.remove(file)
         except Exception as e:
             print(f"Error copying track to directory - {str(e)}")
             continue
 
-        os.remove(file)
+    print('Job Complete!')
