@@ -15,12 +15,8 @@ def run_report():
     mp3_files = glob.glob('**/*.mp3', recursive=True)
     print(f'Found {len(mp3_files)} mp3 files')
 
-    non_mp3_files = glob.glob('**/*[!.mp3]', recursive=True)
-    print(f'Found {len(mp3_files)} non-mp3 files')
-
     report = Report(mp3_files)
     report.generate()
-    report.append_non_mp3_files_to_report(non_mp3_files)
 
     print('Job Complete!')
 

@@ -38,12 +38,3 @@ class Report:
                     print(f"Error parsing track data [{file}] - {str(e)}")
                     writer.writerow(['', '', '', '', '', file, str(e)])
                     continue
-
-
-    def append_non_mp3_files_to_report(self, files):
-        with open(self.file_name, 'w', encoding='UTF8', newline='') as f:
-            writer = csv.writer(f)
-
-            for file in files:  
-                ext = pathlib.Path(file).suffix
-                writer.writerow(['', '', '', '', '', file, ext])
