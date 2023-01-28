@@ -1,7 +1,7 @@
 import glob
 import os
 import shutil
-from bpm import analyze
+from bpm import analyze_bpm
 from pathlib import Path
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
@@ -45,7 +45,7 @@ def analyze():
         try:
             audio = MP3(file, ID3=EasyID3)
             # analyze bpm and persist it to the file's ID3 tags
-            bpm = analyze(file_path)
+            bpm = analyze_bpm(file_path)
             print(f'BPM: {bpm}')
             audio['bpm'] = bpm
             audio.save()

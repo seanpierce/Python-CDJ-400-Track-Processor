@@ -8,7 +8,7 @@ import pathlib
 import subprocess
 
 
-def analyze(file):
+def analyze_bpm(file):
     cwd = pathlib.Path(__file__).parent.resolve()
     console_path = f'{cwd}/console/consolebpm.exe'
     result = subprocess.run([console_path, file], shell=True, capture_output=True)
